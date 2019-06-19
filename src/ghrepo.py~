@@ -19,6 +19,7 @@
 
 import optparse
 import sys
+import os
 import utils
 
 def main():
@@ -56,9 +57,10 @@ def main():
 		
 	if opts.update:
 		if utils.isGitRepository():
-			print utils.gitExec('git push origin master')
+			print '[+] Updating remote repository ...'
+			os.system('git push origin master')
 		else:
-			print '[-] Update error: not a git repository!'
+			print '[-] Update error: not a git repository.'
 			print "[!] Try 'ghrepo.py -n' first"
 			return 1
 			
@@ -67,16 +69,16 @@ def main():
 		if utils.createRepository (opts.reponame, utils.getGitHubUsername (),
 		utils.getGitHubToken ()):
 			print '[+] Repository created succesfully.'
-		else:
+		elif not opts.initialize:
 			print '[-] Failed to create repository.'
 			return 1
 			
 	if opts.initialize:
 		if utils.isGitRepository():
 			print '[+] Initializing remote repository ...'
-			utils.gitExec ('git remote add origin git@github.com:%s/%s.git'
+			utils.gitExec ('git remote add origin https://www.github.com/%s/%s.git'
 			%(utils.getGitHubUsername (), opts.reponame))
-			print utils.gitExec ('git push origin master')
+			os.system ('git push origin master')
 		else:
 			print '[-] Initialization error: not a git repository.'
 			print "[!] Try 'ghrepo.py -n' first"
