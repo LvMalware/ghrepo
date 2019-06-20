@@ -64,7 +64,7 @@ def main():
 	if opts.message != None:
 		print '[+]', utils.gitExec(['git', 'add', '.'])
 		print '[+]', utils.gitExec(['git', 'commit', '-m',
-		'"%s"' %opts.message.replace('"', '').replace("'", "")])
+		'%s' %opts.message.replace('"', '').replace("'", "")])
 		
 	if opts.update:
 		if utils.isGitRepository():
