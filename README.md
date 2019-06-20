@@ -6,7 +6,7 @@ This is a tool for linux command line enthusiasts.  Simple and unofficial,
 it allows you to create and/or update GitHub repositories directly from the
 command line (which is much faster than opening the browser every time).
 
-To use it, you need to configure your local GitHub with your username and your
+To use it, you need to configure your local GitHub info with your username and your
 application token.
 
     Example: 'git config --global github.user <username>'
