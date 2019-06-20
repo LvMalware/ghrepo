@@ -6,21 +6,34 @@ import os
 try:
 	import requests
 except:
-	raise Exception("requests lib is missing")
-
+	print "[-] Import error: lib 'requests' is missing."
+	print "[!] Try 'pip install requests' first."
+	quit(1)
+	
 def getGitHubUsername():
 	#	Returns the current configured GitHub username
 	
-	return subprocess.check_output(
+	user = subprocess.check_output(
 	['git', 'config', '--global', 'github.user']
 	).rstrip();
+	if len(user) < 5:
+		print '[-] Username error: no username found.'
+		print "[!] Try 'git config --global github.user <user>' first"
+		quit(1)
+	return user
 
 def getGitHubToken():
 	#	Returns the current configured GitHub token
 	
-	return subprocess.check_output(
+	token = subprocess.check_output(
 	['git', 'config', '--global', 'github.token']
 	).rstrip();
+	
+	if len(token) < 5:
+		print '[-] Token error: no token found.'
+		print "[!] Try 'git config --global github.token <token>' first"
+		quit(1)
+	return token
 
 def createRepository(repoName, ghUsername, ghToken):
 	#	Creates the repository with given name (repoName) using the given
@@ -37,6 +50,7 @@ def createRepository(repoName, ghUsername, ghToken):
 		
 def isGitRepository():
 	return os.system('git status >> /dev/null 2>&1') == 0
+	
 def gitExec(command):
 	cmd = command
 	if type(cmd) == type(''):

@@ -23,12 +23,19 @@ import os
 import utils
 
 def main():
-	parser = optparse.OptionParser(usage='%prog [option(s)] -c <reponame>',
-	description='Creates a repository at GitHub from command line.',
-	epilog='ghrepo - Created by LvMalware Drk', version='1.0')
 	
-	parser.add_option ('-c', '--create', dest='reponame', type='string',
-	help='Create a repository named REPONAME')
+	parser = optparse.OptionParser(usage='%prog [option(s)] <reponame>',
+	description='Creates a repository at GitHub from command line.',
+	epilog='ghrepo - Created by Lucas V. Araujo', version='1.0')
+
+	if len(sys.argv) < 2:
+		parser.print_usage ()
+		print "For more info, run 'ghrepo.py --help'"
+		print
+		return 1
+	
+	parser.add_option ('-c', '--create', dest='create', default=False,
+	action='store_true', help='Create a repository named REPONAME')
 
 	parser.add_option ('-i', '--initialize', dest='initialize', default=False,
 	action='store_true', help="Initialize the repository after creation with \
@@ -44,8 +51,12 @@ def main():
 	parser.add_option ('-s', '--commit', dest='message', type="string",
 	help="Commits the current modifications (just localy). Equivalent to\
 	'git add . && git commit -m \"MESSAGE\"'")
-	
+
+	#	Parse the options
 	opts, args = parser.parse_args()
+
+	#	Get the username and token
+	user, token = utils.getGitHubUsername (), utils.getGitHubToken ()
 	
 	if opts.new:
 		print '[+]', utils.gitExec('git init')
@@ -64,10 +75,9 @@ def main():
 			print "[!] Try 'ghrepo.py -n' first"
 			return 1
 			
-	if opts.reponame != None:
-		print "[+] Creating repository '%s' ... " %opts.reponame
-		if utils.createRepository (opts.reponame, utils.getGitHubUsername (),
-		utils.getGitHubToken ()):
+	if opts.create:
+		print "[+] Creating repository '%s' ... " %args[0]
+		if utils.createRepository (args[0], user, token):
 			print '[+] Repository created succesfully.'
 		elif not opts.initialize:
 			print '[-] Failed to create repository.'
@@ -77,7 +87,7 @@ def main():
 		if utils.isGitRepository():
 			print '[+] Initializing remote repository ...'
 			utils.gitExec ('git remote add origin https://www.github.com/%s/%s.git'
-			%(utils.getGitHubUsername (), opts.reponame))
+			%(user, args[0]))
 			os.system ('git push origin master')
 		else:
 			print '[-] Initialization error: not a git repository.'
@@ -86,4 +96,4 @@ def main():
 	return 0
 
 if __name__ == '__main__':
-	main()
+	quit(main())

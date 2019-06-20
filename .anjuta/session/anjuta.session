@@ -3,7 +3,7 @@ Maximized=1
 Geometry=1366x717+0+0
 
 [File Loader]
-Files=../../src/ghrepo.py#75%%%../../src/utils.py#32
+Files=../../src/ghrepo.py#79%%%../../src/utils.py#32%%%../../README.md#1
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
@@ -13,7 +13,7 @@ Run in terminal=2
 Working directories=../../.
 
 [Project Manager]
-Expand=ghrepo%%%ghrepo//src%%%ghrepo//src//bin%%%ghrepo//src//ghrepo
+Expand=ghrepo%%%ghrepo//src%%%ghrepo//src//bin%%%ghrepo//src//ghrepo%%%ghrepo//dist_doc
 
 [Build]
 Configuration list=1:Default:%%%1:Debug:Debug%%%1:Profiling:Profiling%%%1:Optimized:Optimized
